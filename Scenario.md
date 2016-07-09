@@ -20,13 +20,17 @@ The researcher has a NoSQL database where the speeches are being stored and want
 As of writing (1 July 2016), the Bluemix UX team is trialling a new user experience. The web interface to OpenWhisk is only available through the new experience. These instructions assume you are using the new console experience. At the time of writing, the new user experience uses the sub-doamin of `new-console`.
 
 ### Create an instance of Personality Insights service
-1. From the main navigation menu, select the `Watson` category
-   ![`Watson`](./images/nav-category-watson.png)
+1. From the main navigation menu, select the `Watson` category.
+   ![Navigate to `Watson` category](./images/nav-category-watson.png)
 * Click on `+` in the hexagon on the top right of the main panel
-*
+* From the `Watson` category, select `Personality Insights`.
+* At the bottom right of the `Personality Insights` page, select `Create` to create an instance of the service.
+* In the service overview page, select `Service credentials`
+* Make a note of the `username` and `password` values. You will need to set this in the `action_analyse.js` action script.
 
 ### Create a CloudantNoSQL instnace
-1. create CloudantNoSQL DB
+1. From the main navigation menu, select the `Data & Analytics` category.
+  ![Navigate to `Data & Analytics` category](./images/nav-category-DataAnalytics.png)
 * Launch the CloudantNoSQL console and create a database called `speeches`.
 
 ### Create an OpenWhisk action to get Personality Insight from text
