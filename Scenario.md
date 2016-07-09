@@ -31,9 +31,18 @@ As of writing (1 July 2016), the Bluemix UX team is trialling a new user experie
 ### Create a CloudantNoSQL instnace
 1. From the main navigation menu, select the `Data & Analytics` category.
   ![Navigate to `Data & Analytics` category](./images/nav-category-DataAnalytics.png)
+* Click on `+` in the hexagon on the top right of the main panel
+* From the `Data & Analytics` category, select `Cloudant NoSQL DB`.
+* At the bottom right of the `Cloudant NoSQL DB` page, select `Create` to create an instance of the service.
+* In the service overview page, select
 * Launch the CloudantNoSQL console and create a database called `speeches`.
 
 ### Create an OpenWhisk action to get Personality Insight from text
+  1. Clone this repository
+    ```bash
+    $ git clone https://github.com/iwinoto/openwhisk-demo-personalityanalysis.git
+    ```
+  1. From a command line terminal, navigate to the cloned repository directory
   1. create action
     ```bash
     $ wsk action create analyse-java serverless/action_analyse.js
