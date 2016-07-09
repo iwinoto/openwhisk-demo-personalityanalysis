@@ -20,7 +20,9 @@ The researcher has a NoSQL database where the speeches are being stored and want
 As of writing (1 July 2016), the Bluemix UX team is trialling a new user experience. The web interface to OpenWhisk is only available through the new experience. These instructions assume you are using the new console experience. At the time of writing, the new user experience uses the sub-doamin of `new-console`.
 
 ### Create an instance of Personality Insights service
-1. From the main navigation menu, select the [`Watson`](./images/nav-category-watson.png) category.
+1. From the main navigation menu, select the ![`Watson`](./images/nav-category-watson.png) category.
+* Click on `+` in the hexagon on the top right of the main panel
+*
 
 ### Create a CloudantNoSQL instnace
 1. create CloudantNoSQL DB
