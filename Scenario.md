@@ -1,17 +1,36 @@
-## Demo OpenWhisk.
+# Demo OpenWhisk.
+## Scenario
+A political researcher is interested in analysing political speeches to understand the personality that is being projected by the politician.
 
-Trigger an action through a DB update
-  1. create CloudantNoSQL DB
-  * Launch the CloudantNoSQL console and create a databse called `speeches`.
-  * create whisk action to get Personality Insight from text
-    1. create action
-      ```bash
-      $ wsk action create analyse-java serverless/action_analyse.js
-      ```
-    * test action
-      ```bash
-      $ wsk action invoke -p text "this is some text to analyse" -p language en -b -r analyse-java
-      ```
+The researcher has a NoSQL database where the speeches are being stored and wants to use Watson Personality Insights service from Bluemix to analyse the speech. As a researcher, there are limited funds for this work and infrastrucure cannot be purchased. Cloud is an obvious deployment target. However, the rate that speeches are added to the database is very low and the researcher does not want to pay for idle cloud resources. The analysis process should only run when a new speech is added.
+
+## Solution
+* CloudantNoSQL to store the speeches
+* Watson Developer Cloud Personality Insights
+* OpenWhisk to trigger events from Cloundant NoSQL and activate actions to analyse the speech.
+
+## Implementation
+
+### Prerequisites
+* IBM Bluemix account. [Sign up](https://console.ng.bluemix.net/registration) for Bluemix, or use an existing account.
+* IBM Bluemix OpenWhisk early access. [Sign up for Bluemix OpenWhisk](https://new-console.ng.bluemix.net/openwhisk).
+* Install and configure the OpenWhisk command line interface [Set up CLI](https://new-console.ng.bluemix.net/openwhisk/cli).
+
+### Create an instance of Personality Insights service
+
+### Create a CloudantNoSQL instnace
+1. create CloudantNoSQL DB
+* Launch the CloudantNoSQL console and create a database called `speeches`.
+
+### Create an OpenWhisk action to get Personality Insight from text
+  1. create action
+    ```bash
+    $ wsk action create analyse-java serverless/action_analyse.js
+    ```
+  * test action
+    ```bash
+    $ wsk action invoke -p text "this is some text to analyse" -p language en -b -r analyse-java
+    ```
   * Create a trigger when a new document is added to CloudantNoSQL
     1. get CloudantNoSQL credentials from Bluemix console. This automatically creates the package binding. Test that the binding exists
       1. Make sure your OpenWhisk CLI is in the namespace corresponding to the Bluemix organization and space where the CloudantNoSQL service instance is created.
