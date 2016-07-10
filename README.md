@@ -88,7 +88,7 @@ These steps are performed in the terminal.
   wsk action create -p namespace <Your OpenWhisk namespace> speechListener serverless/feed_newDoc.js
   ```
 
-  The namespace is set as a default parameter to the action so it fire the right trigger. Examine the code `serverless/feed)newDoc.js` to see how its used.
+  The namespace is set as a default parameter to the action so it fire the right trigger. Examine the code `serverless/feed_newDoc.js` to see how its used.
 
 ### Create a trigger when a new document is added to Cloudant NoSQL
 Now we have the actions we need to create triggers which represent events.
