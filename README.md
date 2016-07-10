@@ -16,9 +16,11 @@ The researcher has a NoSQL database where the speeches are being stored and want
 * IBM Bluemix OpenWhisk early access. [Sign up for Bluemix OpenWhisk](https://new-console.ng.bluemix.net/openwhisk).
 * Install and configure the OpenWhisk command line interface [Set up OpenWhisk CLI](https://new-console.ng.bluemix.net/openwhisk/cli).
 * Clone this repository
+
   ```bash
   $ git clone https://github.com/iwinoto/openwhisk-demo-personalityanalysis.git
   ```
+
 * From a command line terminal, navigate to the cloned repository directory
 
 ### Bluemix web console
@@ -51,6 +53,7 @@ We need two actions. The `analyse` action will send a request to the Personality
 These steps are performed in the terminal.
 
 1. Update the `./serverless/action_analyse.js` code with the `username` and `password` values from your **Personality Insights** service
+
   ```javascript
   var personality_insights = watson.personality_insights({
     username: '<Your username>',
@@ -58,48 +61,65 @@ These steps are performed in the terminal.
     version: 'v2'
   });
   ```
+
 * create an action to call the Personality Insights service
+
   ```bash
   wsk action create analyse serverless/action_analyse.js
   ```
+
 * test action with some sample text. The service will return with a message that there is not enough text to create a profile. That's OK for now, we just want to know that the service is being called.
+
+
   ```bash
   wsk action invoke -p text "this is some text to analyse" -p language en -b -r analyse
   ```
+
   Use `wsk action invoke -h` to understand the command parameters.
   You will see the results of invoking the action in the command line and in the OpenWhisk web console **Dashboard**.
 * Create the `speechListener` action which will fire the `newSpeech` trigger
+
   ```bash
   wsk action create -p namespace <Your OpenWhisk namespace> speechListener serverless/feed_newDoc.js
   ```
+
   The namespace is set as a default parameter to the action so it fire the right trigger. Examine the code `serverless/feed)newDoc.js` to see how its used.
 
 ### Create a trigger when a new document is added to Cloudant NoSQL
 Now we have the actions we need to create triggers which represent events.
 
 1. Make sure your OpenWhisk CLI is in the namespace corresponding to the Bluemix organization and space where your Cloudant NoSQL service instance is created. This will have been set up if you followed the [Install and configure OpenWhisk CLI](https://new-console.ng.bluemix.net/openwhisk/cli) step.
+
   ```bash
   wsk property get --namespace
   ```
+
   * To change the `namespace`, use the following command
+
     ```bash
     wsk property set --namespace <myBluemixOrg>_<myBluemixSpace>
     ```
+
 * Refresh the whisk packages in your namespace. The refresh automatically creates a package binding for the Cloudant service instance that you created.
+
   ```bash
   $ wsk package refresh
   $ wsk package list
   ```
+
   The result of the last command should show the fully qualified name of the package binding corresponding to the `Cloudant NoSQL` service instance. It will bein the format of `<Your OpenWhisk namespace>/<Your Cloudant NoSQL binding>`. You will need this in the next step.
 * create trigger on the `speeches` database
+
   ```bash
   wsk trigger create changedSpeech --feed /<Your OpenWhisk namespace>/<Your Cloudant NoSQL binding>/changes --param dbname speeches --param includeDoc true
   ```
+
   This trigger will be fired whenever there is a change in the `speeches` database.
 
 The `changeListener` action will invoke a trigger named 'newSpeech' when the database change is not a deletion. We need to configure the trigger in OpenWhisk.
 
 1. Create the `newSpeech` trigger.
+
   ```bash
   wsk trigger create newSpeech --feed speechListener
   ```
@@ -110,25 +130,33 @@ Now that the actions and triggers have been created, we create rules that link t
 The `analyse` action will be fired when a new speech is detected. We create a rule to invoke the `analyse` action whenever the `newSpeech` trigger is fired.
 
 1. Create a rule that invokes the `analyse` action when the `newSpeech` trigger is fired
+
   ```bash
   wsk rule create --enable newSpeechRule newSpeech analyse
   ```
+
 * Test the rule by firing the trigger from the command line with parameters that will be passed to the action.
+
   ```bash
   wsk trigger fire newSpeech -p text "here is some text to analyse" -p language en
   ```
+
 * Inspect the result in the dashboard or list activations and get the activation result
 
 The `changeListener` action will be fired when a change to the `speeches` database is detected. We create a rule to invoke the `changeListener` action whenever the `changedSpeech` trigger is fired.
 
 1. Create a rule that invokes the `speechListener` action when the `changedSpeech` trigger is fired
+
   ```bash
   wsk rule create --enable changedSpeechRule changedSpeech speechListener
   ```
+
 * Test the rule by firing the trigger from the command line
+
   ```bash
   wsk trigger fire changedSpeech -p text "here is some text to analyse" -p language en
   ```
+
   Firing the `changedSpeech` trigger will invoke `changeListener` action which will invoke the `newSpeech` trigger which will finally invoke the `analyse` action.
 
 ### Test the system.
