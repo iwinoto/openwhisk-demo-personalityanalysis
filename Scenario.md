@@ -30,7 +30,7 @@ The Bluemix web console includes a console for OpenWhisk. You can use the OpenWh
 ### Create an instance of Personality Insights service
 1. From the Bluemix web console main navigation menu, select the **Watson** category.
    ![Navigate to **Watson** category](./images/nav-category-watson.png)
-* Click on `+` in the hexagon on the top right of the main panel
+* Click on ** + ** in the hexagon on the top right of the main panel
 * From the **Watson** category, select **Personality Insights**.
 * At the bottom right of the **Personality Insights** page, select **Create** to create an instance of the service.
 * In the service overview page, select **Service credentials**
@@ -39,10 +39,10 @@ The Bluemix web console includes a console for OpenWhisk. You can use the OpenWh
 ### Create a CloudantNoSQL instnace
 1. From the Bluemix web console main navigation menu, select the `Data & Analytics` category.
   ![Navigate to `Data & Analytics` category](./images/nav-category-DataAnalytics.png)
-* Click on `+` in the hexagon on the top right of the main panel
-* From the `Data & Analytics` category, select `Cloudant NoSQL DB`.
-* At the bottom right of the `Cloudant NoSQL DB` page, select `Create` to create an instance of the service.
-* In the service overview page, select `Launch` to launch the Cloudant web console
+* Click on ** + ** in the hexagon on the top right of the main panel
+* From the **Data & Analytics** category, select **Cloudant NoSQL DB**.
+* At the bottom right of the **Cloudant NoSQL DB** page, select **Create** to create an instance of the service.
+* In the service overview page, select **Launch** to launch the Cloudant web console
 * Create a database called `speeches`.
 
 ### Create create the actions
@@ -123,4 +123,4 @@ The `changeListener` action will be fired when a change to the `speeches` databa
 ### Test the system.
 Now when we add a new document to the speeches database, we should see the actions being invoked and get a personality analysis of the speech.
 1. In the Cloudant NoSQL console, add a new document using the JSON in `./sampleText` as a template.
-* View the results in the OpenWhisk web console ***Dashboard***.
+* View the results in the OpenWhisk web console **Dashboard**.
