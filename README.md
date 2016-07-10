@@ -77,7 +77,7 @@ These steps are performed in the terminal.
 ### Create a trigger when a new document is added to Cloudant NoSQL
 Now we have the actions we need to create triggers which represent events.
 
-1. Make sure your OpenWhisk CLI is in the namespace corresponding to the Bluemix organization and space where your Cloudant NoSQL service instance is created. This will have been set up if you followed the [Install and configure OpenWhisk command line](# Install and configure OpenWhisk command line) step.
+1. Make sure your OpenWhisk CLI is in the namespace corresponding to the Bluemix organization and space where your Cloudant NoSQL service instance is created. This will have been set up if you followed the [Install and configure OpenWhisk CLI](https://new-console.ng.bluemix.net/openwhisk/cli) step.
   ```bash
   wsk property get --namespace
   ```
@@ -96,7 +96,9 @@ Now we have the actions we need to create triggers which represent events.
   wsk trigger create changedSpeech --feed /<Your OpenWhisk namespace>/<Your Cloudant NoSQL binding>/changes --param dbname speeches --param includeDoc true
   ```
   This trigger will be fired whenever there is a change in the `speeches` database.
+
 The `changeListener` action will invoke a trigger named 'newSpeech' when the database change is not a deletion. We need to configure the trigger in OpenWhisk.
+
 1. Create the `newSpeech` trigger.
   ```bash
   wsk trigger create newSpeech --feed speechListener
@@ -106,6 +108,7 @@ The `changeListener` action will invoke a trigger named 'newSpeech' when the dat
 Now that the actions and triggers have been created, we create rules that link the triggers to actions.
 
 The `analyse` action will be fired when a new speech is detected. We create a rule to invoke the `analyse` action whenever the `newSpeech` trigger is fired.
+
 1. Create a rule that invokes the `analyse` action when the `newSpeech` trigger is fired
   ```bash
   wsk rule create --enable newSpeechRule newSpeech analyse
@@ -117,6 +120,7 @@ The `analyse` action will be fired when a new speech is detected. We create a ru
 * Inspect the result in the dashboard or list activations and get the activation result
 
 The `changeListener` action will be fired when a change to the `speeches` database is detected. We create a rule to invoke the `changeListener` action whenever the `changedSpeech` trigger is fired.
+
 1. Create a rule that invokes the `speechListener` action when the `changedSpeech` trigger is fired
   ```bash
   wsk rule create --enable changedSpeechRule changedSpeech speechListener
@@ -129,5 +133,6 @@ The `changeListener` action will be fired when a change to the `speeches` databa
 
 ### Test the system.
 Now when we add a new document to the speeches database, we should see the actions being invoked and get a personality analysis of the speech.
+
 1. In the Cloudant NoSQL console, add a new document using the JSON in `./sampleText` as a template.
 * View the results in the OpenWhisk web console **Dashboard**.
