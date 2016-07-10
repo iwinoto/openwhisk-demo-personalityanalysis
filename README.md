@@ -14,7 +14,7 @@ The researcher has a NoSQL database where the speeches are being stored and want
 ### Prerequisites
 * IBM Bluemix account. [Sign up](https://console.ng.bluemix.net/registration) for Bluemix, or use an existing account.
 * IBM Bluemix OpenWhisk early access. [Sign up for Bluemix OpenWhisk](https://new-console.ng.bluemix.net/openwhisk).
-* Install and configure the OpenWhisk command line interface [Set up CLI](https://new-console.ng.bluemix.net/openwhisk/cli).
+* Install and configure the OpenWhisk command line interface [Set up OpenWhisk CLI](https://new-console.ng.bluemix.net/openwhisk/cli).
 * Clone this repository
   ```bash
   $ git clone https://github.com/iwinoto/openwhisk-demo-personalityanalysis.git
@@ -51,7 +51,7 @@ We need two actions. The `analyse` action will send a request to the Personality
 These steps are performed in the terminal.
 
 1. Update the `./serverless/action_analyse.js` code with the `username` and `password` values from your **Personality Insights** service
-  ```nodejs
+  ```javascript
   var personality_insights = watson.personality_insights({
     username: '<Your username>',
     password: '<Your password>',
