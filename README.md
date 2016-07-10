@@ -29,6 +29,11 @@ As of writing (1 July 2016), the Bluemix UX team is trialling a new user experie
 ### OpenWhisk web console
 The Bluemix web console includes a console for OpenWhisk. You can use the OpenWhisk console to create resources and to view the output of OpenWhisk triggers and actions. During this exercise you will be working in the terminal control resources but you will use the web console **Dashboard** to view the results.
 
+To open the OpenWhisk console, from the Bluemix console navigate to **Compute**, ![navigate to **Compute**](./images/nav-category-compute.png)
+and then to **OpenWhisk** ![**OpenWhisk**](./images/nav-compute-OpenWhisk.png).
+
+Click on **Edit and Debug** and then the **Dashboard**.
+
 ### Create an instance of Personality Insights service
 1. From the Bluemix web console main navigation menu, select the **Watson** category.
    ![Navigate to **Watson** category](./images/nav-category-watson.png)
