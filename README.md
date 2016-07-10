@@ -36,7 +36,7 @@ The Bluemix web console includes a console for OpenWhisk. You can use the OpenWh
 * In the service overview page, select **Service credentials**
 * Make a note of the `username` and `password` values. You will need to set this in the `action_analyse.js` action script.
 
-### Create a CloudantNoSQL instnace
+### Create a CloudantNoSQL instance
 1. From the Bluemix web console main navigation menu, select the `Data & Analytics` category.
   ![Navigate to `Data & Analytics` category](./images/nav-category-DataAnalytics.png)
 * Click on **+** in the hexagon on the top right of the main panel
@@ -49,6 +49,7 @@ The Bluemix web console includes a console for OpenWhisk. You can use the OpenWh
 We need two actions. The `analyse` action will send a request to the Personality Insights service to create a personality profile from some text. The `changeListener` action will check the changes to the database and ignore database deletions.
 
 These steps are performed in the terminal.
+
 1. Update the `./serverless/action_analyse.js` code with the `username` and `password` values from your **Personality Insights** service
   ```nodejs
   var personality_insights = watson.personality_insights({
@@ -76,7 +77,7 @@ These steps are performed in the terminal.
 ### Create a trigger when a new document is added to Cloudant NoSQL
 Now we have the actions we need to create triggers which represent events.
 
-1. Make sure your OpenWhisk CLI is in the namespace corresponding to the Bluemix organization and space where your Cloudant NoSQL service instance is created. This will have been set up if you followed the [*Install and configure OpenWhisk command line*] step.
+1. Make sure your OpenWhisk CLI is in the namespace corresponding to the Bluemix organization and space where your Cloudant NoSQL service instance is created. This will have been set up if you followed the [Install and configure OpenWhisk command line](# Install and configure OpenWhisk command line) step.
   ```bash
   wsk property get --namespace
   ```
