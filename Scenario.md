@@ -86,7 +86,7 @@ Now we have the actions we need to create triggers which represent events.
   The result of the last command should show the fully qualified name of the package binding corresponding to the `Cloudant NoSQL` service instance
 * create trigger on the `speeches` database
   ```bash
-  wsk trigger create changedSpeech --feed /iwinoto@au1.ibm.com_dev/Bluemix_Cloudant-speeches_Credentials-1/changes --param dbname _speeches_ --param includeDoc true
+  wsk trigger create changedSpeech --feed /<Your OpenWhisk namespace>/Bluemix_Cloudant-speeches_Credentials-1/changes --param dbname _speeches_ --param includeDoc true
   ```
   This trigger will be fired whenever there is a change in the `speeches` database.
 The `changeListener` action will invoke a trigger named 'newSpeech' when the database change is not a deletion. We need to configure the trigger in OpenWhisk.
