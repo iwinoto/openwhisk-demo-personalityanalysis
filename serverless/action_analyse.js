@@ -6,8 +6,8 @@ function main(msg){
   var result = "";
   var watson = require('watson-developer-cloud');
   var personality_insights = watson.personality_insights({
-    username: 'f75cdd46-5b62-4b30-83a5-c43bc8a72079',
-    password: '5S3ySGflKKB3',
+    username: '<Your username>',
+    password: '<Your password>',
     version: 'v2'
   });
 
