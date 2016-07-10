@@ -19,7 +19,7 @@ function main(doc) {
   } else {
 	console.log("[", doc._id, "] New or updated. Trigger newSpeech with doc");
 	whisk.trigger({
-	  name: "/iwinoto@au1.ibm.com_dev/newSpeech",
+	  name: "newSpeech",
 	  parameters: doc,
 	  next: function(){ whisk.done(); }
 	});
