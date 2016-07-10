@@ -62,13 +62,13 @@ These steps are performed in the terminal.
   });
   ```
 
-* create an action to call the Personality Insights service
+2. create an action to call the Personality Insights service
 
   ```bash
   wsk action create analyse serverless/action_analyse.js
   ```
 
-* test action with some sample text. The service will return with a message that there is not enough text to create a profile. That's OK for now, we just want to know that the service is being called.
+3. test action with some sample text. The service will return with a message that there is not enough text to create a profile. That's OK for now, we just want to know that the service is being called.
 
 
   ```bash
@@ -77,7 +77,7 @@ These steps are performed in the terminal.
 
   Use `wsk action invoke -h` to understand the command parameters.
   You will see the results of invoking the action in the command line and in the OpenWhisk web console **Dashboard**.
-* Create the `speechListener` action which will fire the `newSpeech` trigger
+4. Create the `speechListener` action which will fire the `newSpeech` trigger
 
   ```bash
   wsk action create -p namespace <Your OpenWhisk namespace> speechListener serverless/feed_newDoc.js
@@ -100,7 +100,7 @@ Now we have the actions we need to create triggers which represent events.
     wsk property set --namespace <myBluemixOrg>_<myBluemixSpace>
     ```
 
-* Refresh the whisk packages in your namespace. The refresh automatically creates a package binding for the Cloudant service instance that you created.
+2. Refresh the whisk packages in your namespace. The refresh automatically creates a package binding for the Cloudant service instance that you created.
 
   ```bash
   $ wsk package refresh
@@ -108,7 +108,7 @@ Now we have the actions we need to create triggers which represent events.
   ```
 
   The result of the last command should show the fully qualified name of the package binding corresponding to the `Cloudant NoSQL` service instance. It will bein the format of `<Your OpenWhisk namespace>/<Your Cloudant NoSQL binding>`. You will need this in the next step.
-* create trigger on the `speeches` database
+3. create trigger on the `speeches` database
 
   ```bash
   wsk trigger create changedSpeech --feed /<Your OpenWhisk namespace>/<Your Cloudant NoSQL binding>/changes --param dbname speeches --param includeDoc true
@@ -135,13 +135,13 @@ The `analyse` action will be fired when a new speech is detected. We create a ru
   wsk rule create --enable newSpeechRule newSpeech analyse
   ```
 
-* Test the rule by firing the trigger from the command line with parameters that will be passed to the action.
+2. Test the rule by firing the trigger from the command line with parameters that will be passed to the action.
 
   ```bash
   wsk trigger fire newSpeech -p text "here is some text to analyse" -p language en
   ```
 
-* Inspect the result in the dashboard or list activations and get the activation result
+3. Inspect the result in the dashboard or list activations and get the activation result
 
 The `changeListener` action will be fired when a change to the `speeches` database is detected. We create a rule to invoke the `changeListener` action whenever the `changedSpeech` trigger is fired.
 
@@ -151,7 +151,7 @@ The `changeListener` action will be fired when a change to the `speeches` databa
   wsk rule create --enable changedSpeechRule changedSpeech speechListener
   ```
 
-* Test the rule by firing the trigger from the command line
+2. Test the rule by firing the trigger from the command line
 
   ```bash
   wsk trigger fire changedSpeech -p text "here is some text to analyse" -p language en
