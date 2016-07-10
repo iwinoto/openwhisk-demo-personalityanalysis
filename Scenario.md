@@ -30,7 +30,7 @@ The Bluemix web console includes a console for OpenWhisk. You can use the OpenWh
 ### Create an instance of Personality Insights service
 1. From the Bluemix web console main navigation menu, select the **Watson** category.
    ![Navigate to **Watson** category](./images/nav-category-watson.png)
-* Click on ** + ** in the hexagon on the top right of the main panel
+* Click on **+** in the hexagon on the top right of the main panel
 * From the **Watson** category, select **Personality Insights**.
 * At the bottom right of the **Personality Insights** page, select **Create** to create an instance of the service.
 * In the service overview page, select **Service credentials**
@@ -39,10 +39,10 @@ The Bluemix web console includes a console for OpenWhisk. You can use the OpenWh
 ### Create a CloudantNoSQL instnace
 1. From the Bluemix web console main navigation menu, select the `Data & Analytics` category.
   ![Navigate to `Data & Analytics` category](./images/nav-category-DataAnalytics.png)
-* Click on ** + ** in the hexagon on the top right of the main panel
+* Click on **+** in the hexagon on the top right of the main panel
 * From the **Data & Analytics** category, select **Cloudant NoSQL DB**.
 * At the bottom right of the **Cloudant NoSQL DB** page, select **Create** to create an instance of the service.
-* In the service overview page, select **Launch** to launch the Cloudant web console
+* In the service **Manage** page, select **Launch** to launch the Cloudant web console
 * Create a database called `speeches`.
 
 ### Create create the actions
@@ -59,34 +59,40 @@ These steps are performed in the terminal.
   ```
 * create an action to call the Personality Insights service
   ```bash
-  $ wsk action create analyse serverless/action_analyse.js
+  wsk action create analyse serverless/action_analyse.js
   ```
 * test action with some sample text. The service will return with a message that there is not enough text to create a profile. That's OK for now, we just want to know that the service is being called.
   ```bash
-  $ wsk action invoke -p text "this is some text to analyse" -p language en -b -r analyse-java
+  wsk action invoke -p text "this is some text to analyse" -p language en -b -r analyse
   ```
   Use `wsk action invoke -h` to understand the command parameters.
   You will see the results of invoking the action in the command line and in the OpenWhisk web console **Dashboard**.
 * Create the `speechListener` action which will fire the `newSpeech` trigger
   ```bash
-  wsk action create speechListener serverless/feed_newDoc.js
+  wsk action create -p namespace <Your OpenWhisk namespace> speechListener serverless/feed_newDoc.js
   ```
+  The namespace is set as a default parameter to the action so it fire the right trigger. Examine the code `serverless/feed)newDoc.js` to see how its used.
 
 ### Create a trigger when a new document is added to Cloudant NoSQL
 Now we have the actions we need to create triggers which represent events.
+
 1. Make sure your OpenWhisk CLI is in the namespace corresponding to the Bluemix organization and space where your Cloudant NoSQL service instance is created. This will have been set up if you followed the [*Install and configure OpenWhisk command line*] step.
   ```bash
-  $ wsk property set --namespace <myBluemixOrg>_<myBluemixSpace>
+  wsk property get --namespace
   ```
+  * To change the `namespace`, use the following command
+    ```bash
+    wsk property set --namespace <myBluemixOrg>_<myBluemixSpace>
+    ```
 * Refresh the whisk packages in your namespace. The refresh automatically creates a package binding for the Cloudant service instance that you created.
   ```bash
   $ wsk package refresh
   $ wsk package list
   ```
-  The result of the last command should show the fully qualified name of the package binding corresponding to the `Cloudant NoSQL` service instance
+  The result of the last command should show the fully qualified name of the package binding corresponding to the `Cloudant NoSQL` service instance. It will bein the format of `<Your OpenWhisk namespace>/<Your Cloudant NoSQL binding>`. You will need this in the next step.
 * create trigger on the `speeches` database
   ```bash
-  wsk trigger create changedSpeech --feed /<Your OpenWhisk namespace>/Bluemix_Cloudant-speeches_Credentials-1/changes --param dbname _speeches_ --param includeDoc true
+  wsk trigger create changedSpeech --feed /<Your OpenWhisk namespace>/<Your Cloudant NoSQL binding>/changes --param dbname speeches --param includeDoc true
   ```
   This trigger will be fired whenever there is a change in the `speeches` database.
 The `changeListener` action will invoke a trigger named 'newSpeech' when the database change is not a deletion. We need to configure the trigger in OpenWhisk.
@@ -101,7 +107,7 @@ Now that the actions and triggers have been created, we create rules that link t
 The `analyse` action will be fired when a new speech is detected. We create a rule to invoke the `analyse` action whenever the `newSpeech` trigger is fired.
 1. Create a rule that invokes the `analyse` action when the `newSpeech` trigger is fired
   ```bash
-  wsk rule create --enable newSpeechRule newSpeech analyse-java
+  wsk rule create --enable newSpeechRule newSpeech analyse
   ```
 * Test the rule by firing the trigger from the command line with parameters that will be passed to the action.
   ```bash
