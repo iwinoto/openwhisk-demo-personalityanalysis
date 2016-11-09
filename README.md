@@ -24,15 +24,7 @@ The researcher has a NoSQL database where the speeches are being stored and want
 * From a command line terminal, navigate to the cloned repository directory
 
 ### Bluemix web console
-As of writing (1 July 2016), the Bluemix UX team is trialling a new user experience. The web interface to OpenWhisk is only available through the new experience. These instructions assume you are using the new console experience. At the time of writing, the new user experience uses the sub-doamin of `new-console`.
-
-### OpenWhisk web console
-The Bluemix web console includes a console for OpenWhisk. You can use the OpenWhisk console to create resources and to view the output of OpenWhisk triggers and actions. During this exercise you will be working in the terminal control resources but you will use the web console **Dashboard** to view the results.
-
-To open the OpenWhisk console, from the Bluemix console navigate to **Compute**, ![navigate to **Compute**](./images/nav-category-compute.png)
-and then to **OpenWhisk** ![**OpenWhisk**](./images/nav-compute-OpenWhisk.png).
-
-Click on **Edit and Debug** and then the **Dashboard**.
+OpenWhisk is currently only available in the Bluemix Public US-South region. When you login to the [Bluemix web console](http://console.ng.bluemix.net), make sure you are in the US South region.
 
 ### Create an instance of Personality Insights service
 1. From the Bluemix web console main navigation menu, select the **Watson** category.
@@ -51,6 +43,16 @@ Click on **Edit and Debug** and then the **Dashboard**.
 * At the bottom right of the **Cloudant NoSQL DB** page, select **Create** to create an instance of the service.
 * In the service **Manage** page, select **Launch** to launch the Cloudant web console
 * Create a database called `speeches`.
+
+### OpenWhisk web console
+The Bluemix web console includes a console for OpenWhisk. You can use the OpenWhisk console to create resources and to view the output of OpenWhisk triggers and actions. During this exercise you will be working in the terminal control resources but you will use the web console **Dashboard** to view the results.
+
+To open the OpenWhisk console, from the Bluemix console open the menu and select **Apps** then select **OpenWhisk**.
+
+
+![Navigate to `Data & Analytics` category](./images/nav-app-openwhisk.png)
+
+Click on **Develop** to open the OpenWhisk development environment.
 
 ### Create create the actions
 We need two actions. The `analyse` action will send a request to the Personality Insights service to create a personality profile from some text. The `changeListener` action will check the changes to the database and ignore database deletions.
